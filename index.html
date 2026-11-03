@@ -59,7 +59,7 @@
       color: inherit;
     }
 
-    /* AVISO DE ALMACENAMIENTO */
+    /* AVISO SUPERIOR */
     .storage-banner {
       background: #0f172a;
       color: #94a3b8;
@@ -139,7 +139,7 @@
       max-width: 750px;
     }
 
-    /* CONTENEDOR PRINCIPAL */
+    /* CONTENEDOR */
     .container {
       max-width: 1100px;
       margin: 2rem auto 4rem auto;
@@ -188,7 +188,7 @@
       white-space: nowrap;
     }
 
-    /* LISTADO DE ARCHIVOS */
+    /* LISTA DE ARCHIVOS */
     .file-grid {
       display: flex;
       flex-direction: column;
@@ -205,12 +205,13 @@
       justify-content: space-between;
       gap: 1.25rem;
       box-shadow: var(--shadow);
-      transition: border-color 0.15s ease, transform 0.15s ease;
+      transition: all 0.15s ease;
     }
 
     .file-row:hover {
-      border-color: #cbd5e1;
+      border-color: var(--blue-border);
       transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
 
     .file-left {
@@ -239,12 +240,20 @@
 
     .file-title {
       font-weight: 600;
-      font-size: 1rem;
-      color: var(--text);
+      font-size: 1.05rem;
       margin-bottom: 0.2rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .file-title a {
+      color: var(--text);
+      transition: color 0.15s ease;
+    }
+
+    .file-title a:hover {
+      color: var(--blue);
     }
 
     .file-submeta {
@@ -257,46 +266,32 @@
       flex-wrap: wrap;
     }
 
+    /* BOTÓN DE ENLACE DIRECTO (ABRIR) */
     .file-actions {
-      display: flex;
-      gap: 0.5rem;
       flex-shrink: 0;
     }
 
-    .btn-action {
-      font-size: 0.85rem;
+    .btn-open-link {
+      background: var(--blue-soft);
+      border: 1px solid var(--blue-border);
+      color: var(--blue) !important;
+      font-size: 0.88rem;
       font-weight: 600;
-      padding: 0.5rem 0.95rem;
+      padding: 0.55rem 1rem;
       border-radius: var(--radius-sm);
       transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
 
-    .btn-view {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-view:hover {
-      background: var(--blue-soft);
-      border-color: var(--blue-border);
-      color: var(--blue);
-    }
-
-    .btn-download {
+    .btn-open-link:hover {
       background: var(--blue);
-      border: 1px solid var(--blue);
-      color: #ffffff;
+      border-color: var(--blue);
+      color: #ffffff !important;
     }
 
-    .btn-download:hover {
-      background: var(--blue-hover);
-    }
-
-    /* ESTADOS DE CARGA Y MENSAJES */
+    /* ESTADOS */
     .status-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -345,8 +340,8 @@
         width: 100%;
         margin-top: 0.5rem;
       }
-      .btn-action {
-        flex: 1;
+      .btn-open-link {
+        width: 100%;
         justify-content: center;
       }
     }
@@ -358,7 +353,7 @@
   <aside class="storage-banner">
     <div class="storage-banner-inner">
       <div>
-        <strong>Servidor de almacenamiento:</strong> Esta página solo aloja los archivos descargables en formato PDF.
+        <strong>Servidor de PDFs:</strong> Esta página solo aloja los apuntes para visualización online.
       </div>
       <a href="https://apuntesdes0.blogspot.com" class="btn-to-blog" target="_blank" rel="noopener">
         <span>Ir al blog de apuntes</span> &#8594;
@@ -370,14 +365,14 @@
   <header>
     <div class="header-container">
       <span class="badge-repo">GITHUB STORAGE // SINCRONIZACIÓN AUTOMÁTICA</span>
-      <h1>Archivos PDF disponibles</h1>
+      <h1>Apuntes y Esquemas en PDF</h1>
       <p class="header-desc">
-        Índice generado en tiempo real. Todos los esquemas, tablas y guías subidas a este repositorio están disponibles para lectura o descarga directa para los lectores de <strong>apuntesdes0.blogspot.com</strong>.
+        Haz clic en cualquier archivo para abrirlo y leerlo directamente en tu navegador. Servidor asociado a <strong>apuntesdes0.blogspot.com</strong>.
       </p>
     </div>
   </header>
 
-  <!-- CONTENEDOR DE PDFs -->
+  <!-- CONTENIDO -->
   <main class="container">
 
     <!-- BUSCADOR -->
@@ -390,7 +385,7 @@
     <section class="file-grid" id="fileList">
       <div class="status-box">
         <div class="spinner"></div>
-        <p>Conectando con el repositorio y listando los PDFs subidos...</p>
+        <p>Conectando con el repositorio y cargando los PDFs subidos...</p>
       </div>
     </section>
 
@@ -401,20 +396,19 @@
     <p>Almacenamiento oficial para <a href="https://apuntesdes0.blogspot.com" target="_blank" rel="noopener">Apuntes de ESO (apuntesdes0.blogspot.com)</a>.</p>
   </footer>
 
-  <!-- SCRIPT PARA DETECCIÓN AUTOMÁTICA MEDIANTE GITHUB API -->
+  <!-- SCRIPT -->
   <script>
     /* =========================================================================
        CONFIGURACIÓN DEL REPOSITORIO
-       Si subes la página a GitHub Pages, intentará autodetectarlo solo. 
-       Pero para asegurarte, puedes rellenar tus datos aquí:
+       Si está publicado en GitHub Pages se autodetecta automáticamente.
+       Si quieres forzarlo, pon tus datos aquí:
        ========================================================================= */
     const CONFIG = {
-      githubUser: "apuntesdeso",       // Ej: "tu-usuario" (si lo dejas vacío, lo detecta de la URL)
-      repoName: "apuntesdeso.github.io",         // Ej: "apuntes-pdfs" (si lo dejas vacío, lo detecta de la URL)
-      folder: "pdfs"        // Carpeta donde subes los PDFs. Déjalo en "" si los subes en la raíz
+      githubUser: "",       // Ej: "tu-usuario"
+      repoName: "",         // Ej: "apuntes-eso"
+      folder: "pdfs"        // Carpeta donde subes los PDFs
     };
 
-    // Formatear tamaño del archivo (Bytes a KB o MB)
     function formatBytes(bytes) {
       if (!bytes || bytes === 0) return '0 KB';
       const k = 1024;
@@ -423,7 +417,6 @@
       return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
     }
 
-    // Convertir nombre de archivo en un título limpio y legible
     function cleanTitle(filename) {
       return filename
         .replace(/\.pdf$/i, '')
@@ -431,7 +424,6 @@
         .replace(/\b\w/g, char => char.toUpperCase());
     }
 
-    // Resolver usuario y repositorio automáticamente desde GitHub Pages
     function resolveRepoInfo() {
       let user = CONFIG.githubUser;
       let repo = CONFIG.repoName;
@@ -461,13 +453,12 @@
         container.innerHTML = `
           <div class="status-box">
             <h3 style="color:#b91c1c; margin-bottom:0.5rem;">Falta configurar el repositorio</h3>
-            <p>Abre este archivo <code>index.html</code>, busca la sección <code>const CONFIG</code> arriba en el script y escribe tu nombre de usuario de GitHub y el nombre de tu repositorio.</p>
+            <p>Escribe tu usuario y el nombre de tu repositorio en la variable <code>CONFIG</code> al final del archivo <code>index.html</code>.</p>
           </div>`;
         counter.textContent = 'Error';
         return;
       }
 
-      // Consultar la API de contenidos de GitHub
       const apiUrl = CONFIG.folder 
         ? `https://api.github.com/repos/${user}/${repo}/contents/${CONFIG.folder}`
         : `https://api.github.com/repos/${user}/${repo}/contents`;
@@ -477,34 +468,32 @@
 
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error(`No se encontró la carpeta o el repositorio "${user}/${repo}". Asegúrate de que el repositorio sea público y exista la carpeta.`);
+            throw new Error(`No se encontró la carpeta "${CONFIG.folder}" en ${user}/${repo}. Asegúrate de haber subido la carpeta con algún PDF.`);
           } else if (response.status === 403) {
-            throw new Error("Límite de peticiones de GitHub alcanzado temporalmente. Espera unos minutos.");
+            throw new Error("Límite de consultas temporales alcanzado. Espera un momento y recarga.");
           } else {
-            throw new Error(`Error en la API de GitHub (Código: ${response.status})`);
+            throw new Error(`Error en GitHub API: ${response.status}`);
           }
         }
 
         const data = await response.json();
 
-        // Filtrar únicamente los archivos con extensión .pdf
+        // Filtrar solo los archivos que terminen en .pdf
         allPdfFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.pdf'));
 
         if (allPdfFiles.length === 0) {
           container.innerHTML = `
             <div class="status-box">
               <h3 style="margin-bottom:0.5rem;">No hay archivos PDF todavía</h3>
-              <p>Sube tus archivos <code>.pdf</code> a la carpeta <strong>${CONFIG.folder || 'raíz'}</strong> de este repositorio en GitHub y aparecerán aquí automáticamente.</p>
+              <p>Sube tus archivos PDF a la carpeta <strong>${CONFIG.folder}</strong> en GitHub y aparecerán aquí automáticamente.</p>
             </div>`;
           counter.textContent = '0 PDFs';
           return;
         }
 
-        // Habilitar buscador y mostrar contador
         searchInput.disabled = false;
-        counter.textContent = `${allPdfFiles.length} ${allPdfFiles.length === 1 ? 'PDF' : 'PDFs'} encontrados`;
+        counter.textContent = `${allPdfFiles.length} ${allPdfFiles.length === 1 ? 'PDF' : 'PDFs'} disponibles`;
 
-        // Renderizar la lista
         renderPdfs(allPdfFiles);
 
       } catch (err) {
@@ -523,7 +512,7 @@
       if (files.length === 0) {
         container.innerHTML = `
           <div class="status-box">
-            <p>No hay ningún PDF que coincida con tu búsqueda.</p>
+            <p>No se encontraron PDFs que coincidan con la búsqueda.</p>
           </div>`;
         return;
       }
@@ -531,14 +520,21 @@
       container.innerHTML = files.map(file => {
         const title = cleanTitle(file.name);
         const size = formatBytes(file.size);
-        const fileUrl = file.download_url || file.html_url;
+        
+        // ENLACE NORMAL WEB:
+        // Usa la ruta web directa relativa del archivo para que GitHub Pages lo sirva como página/documento
+        const webUrl = encodeURI(file.path);
 
         return `
           <article class="file-row">
             <div class="file-left">
               <div class="pdf-icon-badge">PDF</div>
               <div class="file-meta">
-                <h2 class="file-title" title="${file.name}">${title}</h2>
+                <h2 class="file-title">
+                  <a href="${webUrl}" target="_blank" rel="noopener" title="Abrir ${file.name}">
+                    ${title}
+                  </a>
+                </h2>
                 <div class="file-submeta">
                   <span>${file.name}</span>
                   <span>&#8226;</span>
@@ -547,22 +543,23 @@
               </div>
             </div>
             <div class="file-actions">
-              <a href="${fileUrl}" class="btn-action btn-view" target="_blank" rel="noopener">Ver</a>
-              <a href="${fileUrl}" class="btn-action btn-download" download="${file.name}">Descargar</a>
+              <!-- Enlace normal: abre en pestaña nueva sin descargar -->
+              <a href="${webUrl}" class="btn-open-link" target="_blank" rel="noopener">
+                <span>Abrir apunte</span> &#8599;
+              </a>
             </div>
           </article>
         `;
       }).join('');
     }
 
-    // Buscador instantáneo
+    // Búsqueda en tiempo real
     document.getElementById('searchInput').addEventListener('input', function(e) {
       const q = e.target.value.toLowerCase().trim();
       const filtered = allPdfFiles.filter(f => f.name.toLowerCase().includes(q));
       renderPdfs(filtered);
     });
 
-    // Iniciar carga al abrir la página
     fetchUploadedPdfs();
   </script>
 
