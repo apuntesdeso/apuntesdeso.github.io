@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Repositorio de PDFs — Apuntes de ESO</title>
+  
+  <!-- Fuente académica Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+
+      --blue: #1d4ed8;
+      --blue-hover: #1e40af;
+      --blue-soft: #eff6ff;
+      --blue-border: #bfdbfe;
+
+      --red-pdf: #dc2626;
+      --red-pdf-bg: #fef2f2;
+      --red-pdf-border: #fecaca;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* AVISO DE ALMACENAMIENTO */
+    .storage-banner {
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: 0.88rem;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .storage-banner-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .storage-banner strong {
+      color: #f8fafc;
+      font-weight: 600;
+    }
+
+    .btn-to-blog {
+      background: var(--blue);
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: background 0.15s ease;
+    }
+
+    .btn-to-blog:hover {
+      background: var(--blue-hover);
+    }
+
+    /* CABECERA */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 2.25rem 1.5rem;
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge-repo {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid var(--blue-border);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.4rem;
+    }
+
+    .header-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 750px;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* BUSCADOR */
+    .search-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #f8fafc;
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--blue);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+    }
+
+    .counter-badge {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+      background: var(--bg);
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    /* LISTADO DE ARCHIVOS */
+    .file-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .file-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .file-row:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .file-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .pdf-icon-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--red-pdf);
+      background: var(--red-pdf-bg);
+      border: 1px solid var(--red-pdf-border);
+      padding: 0.45rem 0.55rem;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .file-meta {
+      min-width: 0;
+    }
+
+    .file-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-submeta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-family: var(--font-mono);
+      flex-wrap: wrap;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .btn-action {
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 0.95rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-view {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-view:hover {
+      background: var(--blue-soft);
+      border-color: var(--blue-border);
+      color: var(--blue);
+    }
+
+    .btn-download {
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #ffffff;
+    }
+
+    .btn-download:hover {
+      background: var(--blue-hover);
+    }
+
+    /* ESTADOS DE CARGA Y MENSAJES */
+    .status-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-radius: 50%;
+      border-top-color: var(--blue);
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.88rem;
+    }
+
+    footer a {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    @media (max-width: 680px) {
+      .file-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .file-actions {
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+      .btn-action {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AVISO SUPERIOR OBLIGATORIO -->
+  <aside class="storage-banner">
+    <div class="storage-banner-inner">
+      <div>
+        <strong>Servidor de almacenamiento:</strong> Esta página solo aloja los archivos descargables en formato PDF.
+      </div>
+      <a href="https://apuntesdes0.blogspot.com" class="btn-to-blog" target="_blank" rel="noopener">
+        <span>Ir al blog de apuntes</span> &#8594;
+      </a>
+    </div>
+  </aside>
+
+  <!-- CABECERA -->
+  <header>
+    <div class="header-container">
+      <span class="badge-repo">GITHUB STORAGE // SINCRONIZACIÓN AUTOMÁTICA</span>
+      <h1>Archivos PDF disponibles</h1>
+      <p class="header-desc">
+        Índice generado en tiempo real. Todos los esquemas, tablas y guías subidas a este repositorio están disponibles para lectura o descarga directa para los lectores de <strong>apuntesdes0.blogspot.com</strong>.
+      </p>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR DE PDFs -->
+  <main class="container">
+
+    <!-- BUSCADOR -->
+    <section class="search-panel">
+      <input type="text" id="searchInput" class="search-input" placeholder="Buscar entre los PDFs subidos..." autocomplete="off" disabled />
+      <div id="fileCounter" class="counter-badge">Cargando...</div>
+    </section>
+
+    <!-- LISTADO DINÁMICO -->
+    <section class="file-grid" id="fileList">
+      <div class="status-box">
+        <div class="spinner"></div>
+        <p>Conectando con el repositorio y listando los PDFs subidos...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>Almacenamiento oficial para <a href="https://apuntesdes0.blogspot.com" target="_blank" rel="noopener">Apuntes de ESO (apuntesdes0.blogspot.com)</a>.</p>
+  </footer>
+
+  <!-- SCRIPT PARA DETECCIÓN AUTOMÁTICA MEDIANTE GITHUB API -->
+  <script>
+    /* =========================================================================
+       CONFIGURACIÓN DEL REPOSITORIO
+       Si subes la página a GitHub Pages, intentará autodetectarlo solo. 
+       Pero para asegurarte, puedes rellenar tus datos aquí:
+       ========================================================================= */
+    const CONFIG = {
+      githubUser: "apuntesdeso",       // Ej: "tu-usuario" (si lo dejas vacío, lo detecta de la URL)
+      repoName: "apuntesdeso.github.io",         // Ej: "apuntes-pdfs" (si lo dejas vacío, lo detecta de la URL)
+      folder: "pdfs"        // Carpeta donde subes los PDFs. Déjalo en "" si los subes en la raíz
+    };
+
+    // Formatear tamaño del archivo (Bytes a KB o MB)
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return '0 KB';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    // Convertir nombre de archivo en un título limpio y legible
+    function cleanTitle(filename) {
+      return filename
+        .replace(/\.pdf$/i, '')
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    // Resolver usuario y repositorio automáticamente desde GitHub Pages
+    function resolveRepoInfo() {
+      let user = CONFIG.githubUser;
+      let repo = CONFIG.repoName;
+
+      if (!user || !repo) {
+        const host = window.location.hostname;
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+
+        if (host.includes('.github.io')) {
+          user = user || host.split('.')[0];
+          repo = repo || (pathSegments.length > 0 ? pathSegments[0] : user + '.github.io');
+        }
+      }
+
+      return { user, repo };
+    }
+
+    let allPdfFiles = [];
+
+    async function fetchUploadedPdfs() {
+      const container = document.getElementById('fileList');
+      const counter = document.getElementById('fileCounter');
+      const searchInput = document.getElementById('searchInput');
+      const { user, repo } = resolveRepoInfo();
+
+      if (!user || !repo) {
+        container.innerHTML = `
+          <div class="status-box">
+            <h3 style="color:#b91c1c; margin-bottom:0.5rem;">Falta configurar el repositorio</h3>
+            <p>Abre este archivo <code>index.html</code>, busca la sección <code>const CONFIG</code> arriba en el script y escribe tu nombre de usuario de GitHub y el nombre de tu repositorio.</p>
+          </div>`;
+        counter.textContent = 'Error';
+        return;
+      }
+
+      // Consultar la API de contenidos de GitHub
+      const apiUrl = CONFIG.folder 
+        ? `https://api.github.com/repos/${user}/${repo}/contents/${CONFIG.folder}`
+        : `https://api.github.com/repos/${user}/${repo}/contents`;
+
+      try {
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error(`No se encontró la carpeta o el repositorio "${user}/${repo}". Asegúrate de que el repositorio sea público y exista la carpeta.`);
+          } else if (response.status === 403) {
+            throw new Error("Límite de peticiones de GitHub alcanzado temporalmente. Espera unos minutos.");
+          } else {
+            throw new Error(`Error en la API de GitHub (Código: ${response.status})`);
+          }
+        }
+
+        const data = await response.json();
+
+        // Filtrar únicamente los archivos con extensión .pdf
+        allPdfFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.pdf'));
+
+        if (allPdfFiles.length === 0) {
+          container.innerHTML = `
+            <div class="status-box">
+              <h3 style="margin-bottom:0.5rem;">No hay archivos PDF todavía</h3>
+              <p>Sube tus archivos <code>.pdf</code> a la carpeta <strong>${CONFIG.folder || 'raíz'}</strong> de este repositorio en GitHub y aparecerán aquí automáticamente.</p>
+            </div>`;
+          counter.textContent = '0 PDFs';
+          return;
+        }
+
+        // Habilitar buscador y mostrar contador
+        searchInput.disabled = false;
+        counter.textContent = `${allPdfFiles.length} ${allPdfFiles.length === 1 ? 'PDF' : 'PDFs'} encontrados`;
+
+        // Renderizar la lista
+        renderPdfs(allPdfFiles);
+
+      } catch (err) {
+        container.innerHTML = `
+          <div class="status-box">
+            <h3 style="color:#b91c1c; margin-bottom:0.5rem;">No se pudieron cargar los PDFs</h3>
+            <p>${err.message}</p>
+          </div>`;
+        counter.textContent = 'Error';
+      }
+    }
+
+    function renderPdfs(files) {
+      const container = document.getElementById('fileList');
+
+      if (files.length === 0) {
+        container.innerHTML = `
+          <div class="status-box">
+            <p>No hay ningún PDF que coincida con tu búsqueda.</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = files.map(file => {
+        const title = cleanTitle(file.name);
+        const size = formatBytes(file.size);
+        const fileUrl = file.download_url || file.html_url;
+
+        return `
+          <article class="file-row">
+            <div class="file-left">
+              <div class="pdf-icon-badge">PDF</div>
+              <div class="file-meta">
+                <h2 class="file-title" title="${file.name}">${title}</h2>
+                <div class="file-submeta">
+                  <span>${file.name}</span>
+                  <span>&#8226;</span>
+                  <span>${size}</span>
+                </div>
+              </div>
+            </div>
+            <div class="file-actions">
+              <a href="${fileUrl}" class="btn-action btn-view" target="_blank" rel="noopener">Ver</a>
+              <a href="${fileUrl}" class="btn-action btn-download" download="${file.name}">Descargar</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Buscador instantáneo
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allPdfFiles.filter(f => f.name.toLowerCase().includes(q));
+      renderPdfs(filtered);
+    });
+
+    // Iniciar carga al abrir la página
+    fetchUploadedPdfs();
+  </script>
+
+</body>
+</html>
